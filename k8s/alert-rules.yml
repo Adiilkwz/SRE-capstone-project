@@ -1,0 +1,19 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: prr-app-alerts
+  namespace: monitoring
+  labels:
+    release: prometheus
+spec:
+  groups:
+  - name: prr-rules
+    rules:
+    - alert: AppInstanceDown
+      expr: absent(up{job="prr-app-service"})
+      for: 1m
+      labels:
+        severity: critical
+      annotations:
+        summary: "Microservice PRR falled down!"
+        description: "The Go application prr-service has been unavailable on the server for more than 1 minute."
