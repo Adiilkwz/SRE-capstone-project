@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: prr-app-deployment
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: prr-service
+  template:
+    metadata:
+      labels:
+        app: prr-service
+    spec:
+      containers:
+      - name: prr-service
+        image: ghcr.io/YOUR_GITHUB_USERNAME/prr-infrastructure/dummy-service:latest
+        ports:
+        - containerPort: 8080
+        resources:
+          requests:
+            cpu: "100m"
+            memory: "128Mi"
+          limits:
+            cpu: "250m"
+            memory: "256Mi"
